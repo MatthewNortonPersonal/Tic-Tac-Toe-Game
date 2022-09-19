@@ -12,18 +12,21 @@
 
 # imports
 import random
+import time
 
 # Functions
 
 # Function to display the board depending on states of all of the cells. "positions" is a 9-element list.
+# The elements of the list should be strings, but I added the conversions just in case.
 def displayBoard(positions):
-    
+    print("\n")
     for i in range(3):
-        print(" " + positions[i], positions[i + 1], positions[i + 2], sep=" | ")
+        print(" " + str(positions[3 * i]), str(positions[3 * i + 1]), str(positions[3 * i + 2]), sep=" | ")
 
         # Prints the horizontal divider lines only twice
         if i < 2:
             print("---|---|---")
+    print("\n")
 
 # This prompts the user with the gamemodes that they can select from.
 # It also returns a numerical value that corresponds with some gamemode. (1-3 = singleplayer, 4 = multiplayer)
@@ -97,23 +100,25 @@ def detectWin(board):
     # 2D array that holds arrays that indicate the indices of the locations for the winning conditions
     conditions = [
         # Horizontal conditions
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
         # Verical conditions
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
         # Diagonal conditions
-        [0,4,8],
-        [2,4,6]
+        [0, 4, 8],
+        [2, 4, 6]
     ]
 
     for condition in conditions:
-        cell1, cell2, cell3 = condition
+        cell1, cell2, cell3 = condition # This assigns cell1, cell2, and cell3 to the first, second, and third elements of condition respectfully.
         if (board[cell1] == board[cell2]) and (board[cell2] == board[cell3]) and (board[cell1] != " "):
             presentWinner(board[cell1])
-            break
+            return True # The function returns true if there is a winner
+        else:
+            return False # The function returns false if there is not a wineer with the current board
 
     # Former solution vvvv
 
@@ -139,6 +144,47 @@ def detectWin(board):
     # elif (board[2] == board[4]) and (board[4] == board[6]) and (board[2] != " "):
     #     presentWinner(board[2])
 
+# This is the function that displays how to enter the moves that you want to make.
+def howToPlay():
+    displayBoard(["0", "1", "2",
+                  "3", "4", "5",
+                  "6", "7", "8"])
+    print("\nFor moves, enter the number that corresponds to the spot on the board.")
+
+# This function plays the multiplayer gamemode.
+def multiplayer(board):
+    howToPlay()
+    displayBoard(board)
+
+    i = 1
+    print(detectWin(board))
+    while detectWin(board) == False:
+        while i == 1:
+            try:
+                location = int(input("Player 1 (X), move: "))
+                
+                # Input must be a number 1-8
+                if location in range(9):
+                    move(board, location, "X")
+                    displayBoard(board)
+                else:
+                    print("Invalid input--you must enter an integer from 0-8.")
+
+                break # Instead of having this inside an if, I made it a while loop so if the user does not enter an integer it will still be the same player. That is why there is a break here.
+            except:
+                print("Invalid input--you must enter an integer from 0-8.")
+
+        while i == -1:
+            try:
+                location = int(input("Player 2 (O), move: "))
+                move(board, location, "O")
+                displayBoard(board)
+                
+                break # Instead of having this inside an if, I made it a while loop so if the user does not enter an integer it will still be the same player. That is why there is a break here.
+            except:
+                print("You must enter an integer from 0-8.")
+
+        i *= -1
 
 
 # MAIN #
@@ -155,3 +201,6 @@ board = [" ", " ", " ",
 
 print("Welcome to Tic Tac Toe!\n")
 gamemode = displayGamemodes()
+
+if gamemode == 4:
+    multiplayer(board)
