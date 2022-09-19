@@ -94,27 +94,51 @@ def presentWinner(symbol):
 # This function detects if there is a winning condition on the board and finishes the game if that is the case.
 def detectWin(board):
 
-    # Horizontal winning conditions
-    if (board[0] == board[1]) and (board[1] == board[2]) and (board[0] != " "):
-        presentWinner(board[0])
-    elif (board[3] == board[4]) and (board[4] == board[5]) and (board[3] != " "):
-        presentWinner(board[3])
-    elif (board[6] == board[7]) and (board[7] == board[8]) and (board[6] != " "):
-        presentWinner(board[6])
+    # 2D array that holds arrays that indicate the indices of the locations for the winning conditions
+    conditions = [
+        # Horizontal conditions
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        # Verical conditions
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        # Diagonal conditions
+        [0,4,8],
+        [2,4,6]
+    ]
+
+    for condition in conditions:
+        cell1, cell2, cell3 = condition
+        if (board[cell1] == board[cell2]) and (board[cell2] == board[cell3]) and (board[cell1] != " "):
+            presentWinner(board[cell1])
+            break
+
+    # Former solution vvvv
+
+    # # Horizontal winning conditions
+    # if (board[0] == board[1]) and (board[1] == board[2]) and (board[0] != " "):
+    #     presentWinner(board[0])
+    # elif (board[3] == board[4]) and (board[4] == board[5]) and (board[3] != " "):
+    #     presentWinner(board[3])
+    # elif (board[6] == board[7]) and (board[7] == board[8]) and (board[6] != " "):
+    #     presentWinner(board[6])
     
-    # Vertical winning conditions
-    elif (board[0] == board[3]) and (board[3] == board[6]) and (board[0] != " "):
-        presentWinner(board[0])
-    elif (board[1] == board[4]) and (board[4] == board[7]) and (board[1] != " "):
-        presentWinner(board[1])
-    elif (board[2] == board[5]) and (board[5] == board[8]) and (board[2] != " "):
-        presentWinner(board[2])
+    # # Vertical winning conditions
+    # elif (board[0] == board[3]) and (board[3] == board[6]) and (board[0] != " "):
+    #     presentWinner(board[0])
+    # elif (board[1] == board[4]) and (board[4] == board[7]) and (board[1] != " "):
+    #     presentWinner(board[1])
+    # elif (board[2] == board[5]) and (board[5] == board[8]) and (board[2] != " "):
+    #     presentWinner(board[2])
     
-    # Diagonal winning conditions
-    elif (board[0] == board[5]) and (board[5] == board[8]) and (board[0] != " "):
-        presentWinner(board[0])
-    elif (board[2] == board[5]) and (board[5] == board[6]) and (board[2] != " "):
-        presentWinner(board[2])
+    # # Diagonal winning conditions
+    # elif (board[0] == board[4]) and (board[4] == board[8]) and (board[0] != " "):
+    #     presentWinner(board[0])
+    # elif (board[2] == board[4]) and (board[4] == board[6]) and (board[2] != " "):
+    #     presentWinner(board[2])
+
 
 
 # MAIN #
