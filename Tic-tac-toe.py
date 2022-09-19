@@ -154,6 +154,30 @@ def howToPlay():
                   "6", "7", "8"])
     print("\nFor moves, enter the number that corresponds to the spot on the board.")
 
+# This function is for resetting the board back to its default state (after a game has completed).
+# It is equivalent to the list of spaces, so the board can be set equal to this.
+def resetBoard():
+    return [" ", " ", " ",
+            " ", " ", " ",
+            " ", " ", " "]
+# This function is for restarting the game once it has been
+def playAgain(board):
+    print("\nWould you like to play again?\n")
+    answer = ""
+
+    while answer not in ["Y", "N"]:
+        answer = input("Enter Y for yes and N for no: ")
+        # print(answer)
+
+        if answer not in ["Y", "N"]:
+            print("\nInvalid input--please input either Y or N.\n")
+    
+    if answer == "Y":
+        board = resetBoard()
+        displayGamemodes()
+    elif answer == "N":
+        print("\nThanks for playing!")
+
 # This function plays the multiplayer gamemode.
 def multiplayer(board):
     howToPlay()
@@ -200,7 +224,7 @@ def multiplayer(board):
 
         i *= -1 # This switches i from 1 to -1 and vice versa, switching who plays.
     
-    # playAgain()
+    playAgain(board)
 
 
 # MAIN #
