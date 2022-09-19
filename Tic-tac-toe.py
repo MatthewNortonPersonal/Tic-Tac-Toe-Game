@@ -10,7 +10,10 @@
 #    |   |   
 # 
 
+# imports
 import random
+
+# Functions
 
 # Function to display the board depending on states of all of the cells. "positions" is a 9-element list.
 def displayBoard(positions):
@@ -23,7 +26,7 @@ def displayBoard(positions):
             print("---|---|---")
 
 # This prompts the user with the gamemodes that they can select from.
-# It returns a numerical value that corresponds with some gamemode. (1-3 = singleplayer, 4 = multiplayer)
+# It also returns a numerical value that corresponds with some gamemode. (1-3 = singleplayer, 4 = multiplayer)
 def displayGamemodes():
     print("What mode would you like to play?")
     # \n is to separate the first message and the modes with an empty line as well as to separate the modes with the prompt
@@ -75,8 +78,43 @@ def displayGamemodes():
         
         return 4 # 4 = multiplayer
 
+# Location is an integer while symbol is a string. The location is where the move is being done and the symbol is "X" or "O"
+# board is simply the list that holds the information about the cells on the board
+def move(board, location, symbol):
+    # If the board location is already occupied, it will not replace the symbol there. If it is empty, then it will replace that element in the list.
+    if board[location] != " ":
+        print("\nInvalid move--someone has already played there.\n")
+    else:
+        board[location] = symbol
 
+# Simple function. It just prints a message saying that the input to it has won the game (input should be a string)
+def presentWinner(symbol):
+    print(symbol + " has won the game!")
 
+# This function detects if there is a winning condition on the board and finishes the game if that is the case.
+def detectWin(board):
+
+    # Horizontal winning conditions
+    if (board[0] == board[1]) and (board[1] == board[2]) and (board[0] != " "):
+        presentWinner(board[0])
+    elif (board[3] == board[4]) and (board[4] == board[5]) and (board[3] != " "):
+        presentWinner(board[3])
+    elif (board[6] == board[7]) and (board[7] == board[8]) and (board[6] != " "):
+        presentWinner(board[6])
+    
+    # Vertical winning conditions
+    elif (board[0] == board[3]) and (board[3] == board[6]) and (board[0] != " "):
+        presentWinner(board[0])
+    elif (board[1] == board[4]) and (board[4] == board[7]) and (board[1] != " "):
+        presentWinner(board[1])
+    elif (board[2] == board[5]) and (board[5] == board[8]) and (board[2] != " "):
+        presentWinner(board[2])
+    
+    # Diagonal winning conditions
+    elif (board[0] == board[5]) and (board[5] == board[8]) and (board[0] != " "):
+        presentWinner(board[0])
+    elif (board[2] == board[5]) and (board[5] == board[6]) and (board[2] != " "):
+        presentWinner(board[2])
 
 
 # MAIN #
@@ -89,7 +127,7 @@ board = [" ", " ", " ",
          " ", " ", " "]
 
 # Welcome message for the game
-displayBoard(board)
+# displayBoard(board)
 
 print("Welcome to Tic Tac Toe!\n")
-displayGamemodes()
+gamemode = displayGamemodes()
