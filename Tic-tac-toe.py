@@ -86,9 +86,11 @@ def displayGamemodes():
 def move(board, location, symbol):
     # If the board location is already occupied, it will not replace the symbol there. If it is empty, then it will replace that element in the list.
     if board[location] != " ":
-        print("\nInvalid move--someone has already played there.\n")
+        print("\nInvalid move--someone has already played there.")
+        return False # returns False if the move was unsuccessful
     else:
         board[location] = symbol
+        return True # returns True if the move was successful
 
 # Simple function. It just prints a message saying that the input to it has won the game (input should be a string)
 def presentWinner(symbol):
@@ -103,10 +105,12 @@ def detectWin(board):
         [0, 1, 2],
         [3, 4, 5],
         [6, 7, 8],
+
         # Verical conditions
         [0, 3, 6],
         [1, 4, 7],
         [2, 5, 8],
+        
         # Diagonal conditions
         [0, 4, 8],
         [2, 4, 6]
@@ -117,8 +121,7 @@ def detectWin(board):
         if (board[cell1] == board[cell2]) and (board[cell2] == board[cell3]) and (board[cell1] != " "):
             presentWinner(board[cell1])
             return True # The function returns true if there is a winner
-        else:
-            return False # The function returns false if there is not a wineer with the current board
+    return False # The function returns false if there is not a wineer with the current board. This only happens when all of the conditions have been checked.
 
     # Former solution vvvv
 
@@ -157,34 +160,47 @@ def multiplayer(board):
     displayBoard(board)
 
     i = 1
-    print(detectWin(board))
+    # print(detectWin(board)) # I used this to figure out an issue I had with the win detection system
     while detectWin(board) == False:
-        while i == 1:
+        while i == 1: # While it is X's turn
             try:
                 location = int(input("Player 1 (X), move: "))
                 
                 # Input must be a number 1-8
                 if location in range(9):
-                    move(board, location, "X")
-                    displayBoard(board)
+                    # Only breaks the loop if the move function was successful.
+                    # I had an issue before where it was moving on to the next player even if the move didn't work.
+                    if move(board, location, "X") == True:
+                        displayBoard(board)
+                        break
+                    else:
+                        displayBoard(board) # Displays the board again so the user can see it when they redo their move
                 else:
-                    print("Invalid input--you must enter an integer from 0-8.")
-
-                break # Instead of having this inside an if, I made it a while loop so if the user does not enter an integer it will still be the same player. That is why there is a break here.
+                    print("Invalid input--you must enter an integer from 0-8.") # Invalid because it's the wrong integer
             except:
-                print("Invalid input--you must enter an integer from 0-8.")
+                print("Invalid input--you must enter an integer from 0-8.") # Invalid because it's not an integer
 
-        while i == -1:
+        while i == -1: # While it is O's turn
             try:
                 location = int(input("Player 2 (O), move: "))
-                move(board, location, "O")
-                displayBoard(board)
                 
-                break # Instead of having this inside an if, I made it a while loop so if the user does not enter an integer it will still be the same player. That is why there is a break here.
+                # Input must be a number 1-8
+                if location in range(9):
+                    # Only breaks the loop if the move function was successful.
+                    # I had an issue before where it was moving on to the next player even if the move didn't work.
+                    if move(board, location, "O") == True:
+                        displayBoard(board)
+                        break
+                    else:
+                        displayBoard(board) # Displays the board again so the user can see it when they redo their move
+                else:
+                    print("Invalid input--you must enter an integer from 0-8.") # Invalid because it's the wrong integer
             except:
-                print("You must enter an integer from 0-8.")
+                print("You must enter an integer from 0-8.") # Invalid because it's not an integer
 
-        i *= -1
+        i *= -1 # This switches i from 1 to -1 and vice versa, switching who plays.
+    
+    # playAgain()
 
 
 # MAIN #
