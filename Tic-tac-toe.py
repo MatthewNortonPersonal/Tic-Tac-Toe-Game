@@ -121,31 +121,7 @@ def detectWin(board):
         if (board[cell1] == board[cell2]) and (board[cell2] == board[cell3]) and (board[cell1] != " "):
             presentWinner(board[cell1])
             return True # The function returns true if there is a winner
-    return False # The function returns false if there is not a wineer with the current board. This only happens when all of the conditions have been checked.
-
-    # Former solution vvvv
-
-    # # Horizontal winning conditions
-    # if (board[0] == board[1]) and (board[1] == board[2]) and (board[0] != " "):
-    #     presentWinner(board[0])
-    # elif (board[3] == board[4]) and (board[4] == board[5]) and (board[3] != " "):
-    #     presentWinner(board[3])
-    # elif (board[6] == board[7]) and (board[7] == board[8]) and (board[6] != " "):
-    #     presentWinner(board[6])
-    
-    # # Vertical winning conditions
-    # elif (board[0] == board[3]) and (board[3] == board[6]) and (board[0] != " "):
-    #     presentWinner(board[0])
-    # elif (board[1] == board[4]) and (board[4] == board[7]) and (board[1] != " "):
-    #     presentWinner(board[1])
-    # elif (board[2] == board[5]) and (board[5] == board[8]) and (board[2] != " "):
-    #     presentWinner(board[2])
-    
-    # # Diagonal winning conditions
-    # elif (board[0] == board[4]) and (board[4] == board[8]) and (board[0] != " "):
-    #     presentWinner(board[0])
-    # elif (board[2] == board[4]) and (board[4] == board[6]) and (board[2] != " "):
-    #     presentWinner(board[2])
+    return False # The function returns false if there is not a winner with the current board. This only happens when all of the conditions have been checked.
 
 # This is the function that displays how to enter the moves that you want to make.
 def howToPlay():
@@ -153,6 +129,20 @@ def howToPlay():
                   "3", "4", "5",
                   "6", "7", "8"])
     print("\nFor moves, enter the number that corresponds to the spot on the board.")
+
+def startGame(board):
+    # Welcome message for the game
+    print("Welcome to Tic Tac Toe!\n")
+    gamemode = displayGamemodes() # output of displayGamemodes() is the number corresponding to the gamemode/AI level
+
+    if gamemode == 1: # AI Level 1
+        pass
+    elif gamemode == 2: # AI Level 2
+        pass
+    elif gamemode == 3: # AI Level 3
+        pass
+    elif gamemode == 4: # multiplayer
+        multiplayer(board)
 
 # This function is for resetting the board back to its default state (after a game has completed).
 # It is equivalent to the list of spaces, so the board can be set equal to this.
@@ -173,8 +163,8 @@ def playAgain(board):
             print("\nInvalid input--please input either Y or N.\n")
     
     if answer == "Y":
-        board = resetBoard()
-        displayGamemodes()
+        # This starts the game over with an empty board (since the resetBoard function outputs the empty board)
+        startGame(resetBoard())
     elif answer == "N":
         print("\nThanks for playing!")
 
@@ -184,7 +174,8 @@ def multiplayer(board):
     displayBoard(board)
 
     i = 1
-    # print(detectWin(board)) # I used this to figure out an issue I had with the win detection system
+    # print(detectWin(board)) # <- I used this to figure out an issue I had with the win detection system
+    # While a win is not detected, keep the game going
     while detectWin(board) == False:
         while i == 1: # While it is X's turn
             try:
@@ -226,7 +217,6 @@ def multiplayer(board):
     
     playAgain(board)
 
-
 # MAIN #
 
 # This was used as a way to test the displayBoard function.
@@ -236,11 +226,4 @@ board = [" ", " ", " ",
          " ", " ", " ",
          " ", " ", " "]
 
-# Welcome message for the game
-# displayBoard(board)
-
-print("Welcome to Tic Tac Toe!\n")
-gamemode = displayGamemodes()
-
-if gamemode == 4:
-    multiplayer(board)
+startGame(board)
