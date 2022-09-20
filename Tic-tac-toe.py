@@ -123,6 +123,14 @@ def detectWin(board):
             return True # The function returns true if there is a winner
     return False # The function returns false if there is not a winner with the current board. This only happens when all of the conditions have been checked.
 
+# This is the function to detect if the game is currently a tie (a full board)
+def detectTie(board):
+    for spot in board: # for all elements of the board
+        if spot == " ":
+            return False
+    # returns True if there are no spaces on the board that are empty (that are equal to " ")
+    return True
+
 # This is the function that displays how to enter the moves that you want to make.
 def howToPlay():
     displayBoard(["0", "1", "2",
@@ -213,7 +221,13 @@ def multiplayer(board):
             except:
                 print("You must enter an integer from 0-8.") # Invalid because it's not an integer
 
+        if detectTie(board): # If a tie is detected, it sends a message about the tie and then exits out of the loop so it prompts to play again
+            print("The game is a tie.")
+            break
+
         i *= -1 # This switches i from 1 to -1 and vice versa, switching who plays.
+
+
     
     playAgain(board)
 
