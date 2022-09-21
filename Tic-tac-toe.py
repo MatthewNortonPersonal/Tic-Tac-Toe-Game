@@ -1,5 +1,4 @@
-# This program is going to allow the user to play a two-player game of tic-tac-toe.
-# I will try to add more features over time, but for now, that is going to be the main feature.
+# This program is allows the user to play a two-player game of tic-tac-toe, and is going to allow the user to play against an A.I.
 
 # Grid Appearance
 # 
@@ -12,7 +11,6 @@
 
 # imports
 import random
-import time
 
 # Functions
 
@@ -148,7 +146,7 @@ def startGame(board):
     elif gamemode == 2: # AI Level 2
         pass
     elif gamemode == 3: # AI Level 3
-        pass
+        levelThree(board, firstPlayer())
     elif gamemode == 4: # multiplayer
         multiplayer(board)
 
@@ -175,6 +173,28 @@ def playAgain(board):
         startGame(resetBoard())
     elif answer == "N":
         print("\nThanks for playing!")
+
+# This function has the user select whether they would like to go first or if they would like the computer to go first.
+def firstPlayer():
+    print("\nWould you like to play first, or would you like the computer to go first?\n")
+    starter = ""
+
+    # Loops until the user enters either "c" or "u"
+    while starter not in ["c", "u"]:
+        starter = input("Enter \"u\" for you first, and \"c\" for the computer first: ")
+        if starter not in ["c", "u"]:
+            print("\nPlease enter either \"u\" or \"c\"")
+    
+    return starter # returns either "c" or "u"
+
+# This is the function that starts the singleplayer gamemode against the level 3 A.I.
+def levelThree(board, startingPlayer):
+    howToPlay()
+    
+
+
+
+    
 
 # This function plays the multiplayer gamemode.
 def multiplayer(board):
@@ -227,8 +247,6 @@ def multiplayer(board):
 
         i *= -1 # This switches i from 1 to -1 and vice versa, switching who plays.
 
-
-    
     playAgain(board)
 
 # MAIN #
@@ -236,8 +254,5 @@ def multiplayer(board):
 # This was used as a way to test the displayBoard function.
 # displayBoard(["a", "b", "c", "d", "e", "f", "g", "h", "i"])
 
-board = [" ", " ", " ",
-         " ", " ", " ",
-         " ", " ", " "]
-
+board = resetBoard() # I could change these to make them only one line if I wanted
 startGame(board)

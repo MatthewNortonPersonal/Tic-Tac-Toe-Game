@@ -1,2 +1,2 @@
 # Tic-Tac-Toe-Game
-This is just going to be a basic simulator for tic-tac-toe, and I'll likely try to add an AI to it afterwards.
+This is a basic simulator for tic-tac-toe with a multiplayer mode and singleplayer (vs. an A.I.) modes that are W.I.P.
