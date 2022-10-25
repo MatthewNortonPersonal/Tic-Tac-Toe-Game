@@ -11,6 +11,7 @@
 
 # imports
 import random
+from tracemalloc import start
 
 # Functions
 
@@ -157,7 +158,7 @@ def resetBoard():
             " ", " ", " ",
             " ", " ", " "]
 # This function is for restarting the game once it has been
-def playAgain(board):
+def playAgain():
     print("\nWould you like to play again?\n")
     answer = ""
 
@@ -189,8 +190,40 @@ def firstPlayer():
 
 # This is the function that starts the singleplayer gamemode against the level 3 A.I.
 def levelThree(board, startingPlayer):
-    howToPlay()
+    howToPlay() # Presents the user with a board and how to play the game
     
+    i = 1 # By default the user will start if for some reason the starting player isn't set correctly
+
+    if startingPlayer == "u":
+        i = 1 # Makes it so the user starts
+        userSymbol = "X" # Since the user starts, it is X
+        computerSymbol = "O" # Self explanatory
+    if startingPlayer == "c":
+        i = -1 # Makes it so the computer starts
+        userSymbol = "O" # Since the computer starts, the user is O
+        computerSymbol = "X" # Self explanatory
+    
+
+    while detectWin(board) == False:
+
+        while i == 1: # User turn
+            try:
+                location = int(input("User (" + userSymbol + "), move: "))
+
+                # Input must be a number 0-8
+                if location in range(9):
+                    # Testing to make sure the move is successful
+                    if move(board, location, userSymbol): # outputs a boolean for whether it's succesful
+                        displayBoard(board)
+                else:
+                    print("Invalid input--you must enter an integer from 0-8.") # Invalid because it's not a number 0-8
+            except:
+                print("Invalid input--you must enter an integer from 0-8.") # Invalid because it's not an integer
+
+        while i == -1: # Computer turn
+            print()
+
+
 
 
 
@@ -209,7 +242,7 @@ def multiplayer(board):
             try:
                 location = int(input("Player 1 (X), move: "))
                 
-                # Input must be a number 1-8
+                # Input must be a number 0-8
                 if location in range(9):
                     # Only breaks the loop if the move function was successful.
                     # I had an issue before where it was moving on to the next player even if the move didn't work.
@@ -247,7 +280,7 @@ def multiplayer(board):
 
         i *= -1 # This switches i from 1 to -1 and vice versa, switching who plays.
 
-    playAgain(board)
+    playAgain()
 
 # MAIN #
 
