@@ -188,6 +188,50 @@ def firstPlayer():
     
     return starter # returns either "c" or "u"
 
+# TODO Create the blockPlayer function to detect when the user has two in a row so the computer can block it
+# This function detects when there is a two in a row made by the user and makes the computer do a move in a spot to block it,
+# returning a True. Otherwise, it returns a False.
+def blockPlayer(board, userSymbol, computerSymbol):
+    
+    # Conditions where the user has two in a row for the computer to detect
+    conditions = [
+        # These are the general patterns for structures that indicate a win is one move away
+        [userSymbol, userSymbol, " "]
+        [userSymbol, " ", userSymbol]
+        [" ", userSymbol, userSymbol]
+    ]
+    
+    regions = [
+        # Rows
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+
+        # Columns
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        
+        # Diagonals
+        [0, 4, 8],
+        [2, 4, 6]
+    ]
+
+    for condition in conditions:
+        # first check all the columns for the patterns to block
+        for region in regions:
+            # check each of the cells at the indices in the region
+            cell1, cell2, cell3 = region # these refer to the indices in the list region
+
+            # check if the actual cells on the board match the condition
+            if (board[cell1] == condition[0]) and (board[cell2] == condition[1]) and (board[cell3] == condition[2]):
+                if move(board, region.index(" "), computerSymbol):
+                    # move successful
+                    return True
+    
+    # If none of the conditions were satisfied, then there is no move to block, and the function returns False.
+    return False
+
 # This is the function that starts the singleplayer gamemode against the level 3 A.I.
 def levelThree(board, startingPlayer):
     howToPlay() # Presents the user with a board and how to play the game
